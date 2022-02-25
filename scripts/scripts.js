@@ -22,7 +22,7 @@ window.onload = function() {
    let upperCaseStatus = true;
    let numbersStatus = true;
    let symbolsStatus = true;
-
+   let passwordStrength = 80;
 
    document.getElementById('generatebutton').onclick = function() {
         if (lowerCase.checked) {
@@ -55,6 +55,7 @@ window.onload = function() {
         console.log(symbolsStatus);
 
         generatePassword();
+        calcStrength();
         
    };
 
@@ -80,7 +81,7 @@ window.onload = function() {
 
    }
 
-   function  generatePassword() {
+   function generatePassword() {
        password = "";
        counter = 0;
        if(lowerCaseStatus == false && upperCaseStatus == false && numbersStatus == false && symbolsStatus == false) {
@@ -116,10 +117,45 @@ window.onload = function() {
       document.getElementById('password').value = password;
    }
 
-   document.getElementById('password').onclick = function() {
+
+   function calcStrength() {
+       let lowerCaseFactor = 1;
+       let upperCaseFactor = 1;
+       let numbersFactor = 1;
+       let symbolsFactor = 1;
+
+       if (lowerCaseStatus) {
+           lowerCaseFactor = 2
+       } 
+       if (upperCaseStatus) {
+           upperCaseFactor = 2;
+       }
+       if (numbersStatus) {
+        numbersFactor = 2;
+       }
+       if (symbolsStatus) {
+        symbolsFactor = 2;
+       }
+        
+       passwordStrength = lowerCaseFactor * upperCaseFactor * numbersFactor * symbolsFactor * passwordLength;
+       console.log(passwordStrength);
+       if (passwordStrength <= 40) {
+           passwordStrength = "Weak";
+       }
+       if (passwordStrength > 40 &&  passwordStrength < 96) {
+           passwordStrength = "Medium";
+       } if (passwordStrength >= 96) {
+        passwordStrength = "Strong";
+       }
+       
+       document.getElementById("passstrength").innerHTML = "Password strength: "+ passwordStrength;
+   } 
+
+   document.getElementById('copybutton').onclick = function() {
        
     document.getElementById('password').select();
     navigator.clipboard.writeText(document.getElementById('password').value);
+    document.getElementById('errorhandling').innerHTML = 'Password copied!';
    };
 
 };

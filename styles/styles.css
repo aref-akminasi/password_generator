@@ -65,7 +65,21 @@ body {
 	
 }
 
+#copybutton {
+	background-color: #000000;
+	color: #00DF00;
+	border-color: #00DF00;
+	font-size: 2.6rem;
+	font-family: "monospace";
+	margin-top: 20px;
+	
+}
+
 .generatebutton {
+	display: flex;
+	justify-content: center;
+}
+.copybutton {
 	display: flex;
 	justify-content: center;
 }
@@ -191,5 +205,23 @@ input[type=range] {
 	background: #00DF00;
   }
 
+  #strength {
+	  display: flex;
+	  justify-content: center;
+	  color: #00DF00;
+	  font-size: 3.2rem;
+
+  }
+
+  P {
+	  margin: 0;
+	  padding: 0;
+  }
+
+  .generatebutton {
+	  margin-top: 100px;
+  }
+
+  
 
   
