@@ -1,9 +1,10 @@
 window.onload = function() {
 
-    document.getElementById('passwordrange').oninput = function() {
+    document.querySelector('#passwordrange').oninput = function() {
         let newValue =  document.getElementById('passwordrange').value;
         document.getElementById('passwordlength').innerHTML = "Password length: " + newValue;
         passwordLength = newValue;
+        calcStrength();
         console.log(passwordLength);
     };
    
@@ -15,7 +16,8 @@ window.onload = function() {
    const lowerCaseSet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
    const upperCaseSet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
    const numbersSet = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-   const symbolsSet = ["!", "@", "#", "$", "%", "&", "?"]
+   const symbolsSet = ["!", "@", "#", "$", "%", "&", "?"];
+
    let password = "";
    let passwordLength = 10;
    let lowerCaseStatus = true;
@@ -23,6 +25,11 @@ window.onload = function() {
    let numbersStatus = true;
    let symbolsStatus = true;
    let passwordStrength = 80;
+
+   lowerCase.onchange = () => calcStrength();
+   upperCase.onchange = () => calcStrength();
+   numbers.onchange = () => calcStrength();
+   symbols.onchange = () => calcStrength();
 
    document.getElementById('generatebutton').onclick = function() {
         if (lowerCase.checked) {
@@ -119,6 +126,30 @@ window.onload = function() {
 
 
    function calcStrength() {
+    if (lowerCase.checked) {
+        lowerCaseStatus = true;
+    } else {
+        lowerCaseStatus = false;
+    }
+
+    if (upperCase.checked) {
+        upperCaseStatus = true;
+    } else {
+        upperCaseStatus = false;
+    }
+
+    if (numbers.checked) {
+        numbersStatus = true;
+    } else {
+        numbersStatus = false;
+    }
+
+    if (symbols.checked) {
+        symbolsStatus = true;
+    } else {
+        symbolsStatus = false;
+    }
+       
        let lowerCaseFactor = 1;
        let upperCaseFactor = 1;
        let numbersFactor = 1;
@@ -126,19 +157,27 @@ window.onload = function() {
 
        if (lowerCaseStatus) {
            lowerCaseFactor = 2
-       } 
+       } else {
+        lowerCaseFactor = 1;
+       }
        if (upperCaseStatus) {
            upperCaseFactor = 2;
+       } else {
+        upperCaseFactor = 1;
        }
        if (numbersStatus) {
         numbersFactor = 2;
+       } else {
+        numbersFactor = 1;
        }
        if (symbolsStatus) {
         symbolsFactor = 2;
+       } else {
+        symbolsFactor = 1;
        }
         
        passwordStrength = lowerCaseFactor * upperCaseFactor * numbersFactor * symbolsFactor * passwordLength;
-       console.log(passwordStrength);
+       console.log(`pass strength is ${passwordStrength}`);
        if (passwordStrength <= 40) {
            passwordStrength = "Weak";
        }
