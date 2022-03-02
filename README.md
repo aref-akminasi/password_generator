@@ -1,6 +1,6 @@
 # Password generator
 This is the repository for the password generator project for minor Visual Design & Front-End Development
-Live demo: (comming soon)
+Live demo: https://aref-akminasi.github.io/password_generator/
 
 ## How to run
 ```
