@@ -13,10 +13,14 @@ window.onload = function() {
     const numbers = document.getElementById('numbers');
     const symbols = document.getElementById('symbols');
 
+    //In this section I defined four sets of characters that can be used to generate a password
+
    const lowerCaseSet = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
    const upperCaseSet = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
    const numbersSet = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
    const symbolsSet = ["!", "@", "#", "$", "%", "&", "?"];
+
+   //I added the global variables that can be accessed from all functions to change them
 
    let password = "";
    let passwordLength = 10;
@@ -26,12 +30,13 @@ window.onload = function() {
    let symbolsStatus = true;
    let passwordStrength = 80;
 
-   lowerCase.onchange = () => calcStrength();
+   lowerCase.onchange = () => calcStrength(); //Every time the user select/unselect a character set category the password strength changes for instant feedback
    upperCase.onchange = () => calcStrength();
    numbers.onchange = () => calcStrength();
    symbols.onchange = () => calcStrength();
 
-   document.getElementById('generatebutton').onclick = function() {
+   document.querySelector(('#generatebutton')).onclick = () => {
+
         if (lowerCase.checked) {
             lowerCaseStatus = true;
         } else {
@@ -56,16 +61,11 @@ window.onload = function() {
             symbolsStatus = false;
         }
 
-        console.log(lowerCaseStatus);
-        console.log(upperCaseStatus);
-        console.log(numbersStatus);
-        console.log(symbolsStatus);
-
         generatePassword();
-        calcStrength();
-        
+        calcStrength();     
    };
 
+   //The following four functions generate a random caharacter for each category when called
 
    function glowerCase(lowerCaseSet) {
     let index = Math.floor(Math.random() * (lowerCaseSet.length - 1));
@@ -88,15 +88,19 @@ window.onload = function() {
 
    }
 
+   //This is the main function of the program. It generates the password based on the chosen password length
    function generatePassword() {
+
        password = "";
        counter = 0;
+
        if(lowerCaseStatus == false && upperCaseStatus == false && numbersStatus == false && symbolsStatus == false) {
            document.getElementById('errorhandling').innerHTML = 'Please select at least one character set';
        } else {
         document.getElementById('errorhandling').innerHTML = '';
-       while (counter < passwordLength) {
-       if(counter < passwordLength && lowerCaseStatus == true) {
+       
+        while (counter < passwordLength) { //With the counter the function calls the random character functions in a row until the password length is reached
+         if(counter < passwordLength && lowerCaseStatus == true) {
            password += glowerCase(lowerCaseSet);
            counter++;
        }
@@ -104,27 +108,24 @@ window.onload = function() {
        if(counter < passwordLength &&  upperCaseStatus == true) {
         password += gupperCase(upperCaseSet);
         counter++;
-    }
 
-    if(counter < passwordLength && numbersStatus == true) {
-        password += gnumbers(numbersSet);
+         }
+
+         if(counter < passwordLength && numbersStatus == true) {
+         password += gnumbers(numbersSet);
         counter++;
-    }
+        }
 
-    if(counter < passwordLength && symbolsStatus == true) {
+        if(counter < passwordLength && symbolsStatus == true) {
         password += gsymbols(symbolsSet);
         counter++;
+        }
+      }
     }
-    }
-       }
-
-
-
-    
       document.getElementById('password').value = password;
    }
 
-
+   //This function calculates the strength of a password based on my own formula 
    function calcStrength() {
     if (lowerCase.checked) {
         lowerCaseStatus = true;
@@ -176,6 +177,7 @@ window.onload = function() {
         symbolsFactor = 1;
        }
         
+
        passwordStrength = lowerCaseFactor * upperCaseFactor * numbersFactor * symbolsFactor * passwordLength;
        console.log(`pass strength is ${passwordStrength}`);
        if (passwordStrength <= 40) {
@@ -187,14 +189,16 @@ window.onload = function() {
         passwordStrength = "Strong";
        }
        
-       document.getElementById("passstrength").innerHTML = "Password strength: "+ passwordStrength;
+       document.querySelector('#passstrength').innerHTML = `Password strength: ${passwordStrength}`;
    } 
 
-   document.getElementById('copybutton').onclick = function() {
+   //This function copies the password to the clipboard of the user when the button copy password is pressed
+    document.querySelector('#copybutton').onclick = function() {
        
-    document.getElementById('password').select();
-    navigator.clipboard.writeText(document.getElementById('password').value);
-    document.getElementById('errorhandling').innerHTML = 'Password copied!';
+        document.querySelector('#password').select();
+        navigator.clipboard.writeText(document.getElementById('password').value);
+        document.querySelector('#errorhandling').innerHTML = 'Password copied!';
+
    };
 
 };
